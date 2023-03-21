@@ -1,5 +1,8 @@
 '''
-Reference: https://zhuanlan.zhihu.com/p/89353885
+Reference: 
+1. https://zhuanlan.zhihu.com/p/89353885
+2. https://github.com/mwaskom/seaborn-data 示例中的数据集
+3. https://seaborn.pydata.org/tutorial  官方guidebook
 
 '''
 
