@@ -3,6 +3,7 @@ Reference:
 1. https://zhuanlan.zhihu.com/p/89353885
 2. https://github.com/mwaskom/seaborn-data 示例中的数据集
 3. https://seaborn.pydata.org/tutorial  官方guidebook
+4. https://seaborn.pydata.org/examples/index.html 官方画廊
 
 '''
 
@@ -16,6 +17,25 @@ def main():
     # 图标风格设置，默认为darkgrid风格，另外四种：whitegrid,dark,white,ticks
     sns.set()   
     plt.plot()
+
+# 散点图
+def Scatter():
+    sns.set_theme(style="whitegrid")
+    # diamonds = sns.load_dataset("diamonds")       #调用sns.load_dataset()函数读取在线repository的文件，需联网
+    # 离线下也可直接用pd.read_csv读取，返回pd.DataFrame类型供sns.scatterplot调用
+    diamonds = pd.read_csv("Drawing//seaborn-data-master//seaborn-data-master//diamonds.csv")
+    # Draw a scatter plot while assigning point colors and sizes to different
+    # variables in the dataset
+    f, ax = plt.subplots(figsize=(6.5, 6.5))
+    sns.despine(f, left=True, bottom=True)
+    clarity_ranking = ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
+    sns.scatterplot(x="carat", y="price",
+                    hue="clarity", size="depth",
+                    palette="ch:r=-.2,d=.3_r",
+                    hue_order=clarity_ranking,
+                    sizes=(1, 8), linewidth=0,
+                    data=diamonds, ax=ax)
+    plt.show()
 
 # 单变量频数直方图
 def UniVariate_Analysis():
@@ -57,7 +77,8 @@ def Heatmap():
 
 if __name__ == '__main__':
     # main()
+    Scatter()
     # UniVariate_Analysis()
     # Bivariate_Analysis()
     # Hexagonal_Chart()
-    Heatmap()
+    # Heatmap()
