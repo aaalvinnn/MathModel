@@ -5,11 +5,15 @@ Reference:
 3. https://seaborn.pydata.org/tutorial  官方guidebook
 4. https://seaborn.pydata.org/examples/index.html 官方画廊
 
+函数传参：
+        data:pd.read(".csv")返回的DataFrame数据类型
+        x:DataFrame结构中的列名
+        y:行名
+
 '''
 
 import numpy as np
 import pandas as pd
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -35,7 +39,7 @@ def Scatter():
                     hue_order=clarity_ranking,
                     sizes=(1, 8), linewidth=0,
                     data=diamonds, ax=ax)
-    plt.show()
+    # plt.show()
 
 # 单变量频数直方图
 def UniVariate_Analysis():
@@ -44,7 +48,7 @@ def UniVariate_Analysis():
     x = np.random.normal(size=100)
     # 画出频数直方图 kde为核密度估计
     sns.distplot(x,kde=True)
-    plt.show()
+    # plt.show()
 
 # 双变量散点图
 def Bivariate_Analysis():
@@ -56,7 +60,7 @@ def Bivariate_Analysis():
     df = pd.DataFrame(data,columns=['x','y'])
     # 绘制双变量散点图
     sns.jointplot(x=df['x'],y=df['y'],data=df,size=7)
-    plt.show()
+    # plt.show()
 
 # 六角图
 def Hexagonal_Chart():
@@ -66,19 +70,48 @@ def Hexagonal_Chart():
     # 设置画布风格，（但感觉这一句可有可无， 因为后面设置了颜色了）
     with sns.axes_style('white'):
         sns.jointplot(x=x,y=y,kind='hex',color='k')  #kind='hex'画出六角图
-    plt.show()
+    # plt.show()
 
 # 热度图
 def Heatmap():
     sns.set()
     uniform_data = np.random.rand(8,8)
     heatmap = sns.heatmap(uniform_data)
-    plt.show()
+    # plt.show()
+
+#具有多个变量的二元图
+def Bivariate_Multiple_elements():
+    sns.set_theme(style="dark")
+
+    # Simulate data from a bivariate Gaussian
+    n = 10000
+    mean = [0, 0]
+    cov = [(2, .4), (.4, .2)]
+    rng = np.random.RandomState(0)
+    x, y = rng.multivariate_normal(mean, cov, n).T
+
+    # Draw a combo histogram and scatterplot with density contours
+    f, ax = plt.subplots(figsize=(6, 6))
+    sns.scatterplot(x=x, y=y, s=5, color=".15")
+    sns.histplot(x=x, y=y, bins=50, pthresh=.1, cmap="mako")
+    sns.kdeplot(x=x, y=y, levels=5, color="w", linewidths=1)
+
+#带状图上的多变量回归拟合
+def Regression_Strip():
+    sns.set_theme()
+
+    mpg = pd.read_csv("Drawing//seaborn-data-master//seaborn-data-master//mpg.csv")
+    #带状图
+    sns.catplot(
+        data=mpg, x="cylinders", y="acceleration", hue="weight",
+        native_scale=True, zorder=1
+    )
+    # 回归拟合
+    sns.regplot(
+        data=mpg, x="cylinders", y="acceleration",
+        scatter=False, truncate=False, order=2, color=".2",
+    )
 
 if __name__ == '__main__':
-    # main()
-    Scatter()
-    # UniVariate_Analysis()
-    # Bivariate_Analysis()
-    # Hexagonal_Chart()
-    # Heatmap()
+    Regression_Strip()
+    plt.show()
